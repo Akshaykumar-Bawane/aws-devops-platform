@@ -1,0 +1,5 @@
+apiVersion: v2
+name: jungle-fury-app
+description: Production grade app deployed on EKS
+version: 0.1.0
+appVersion: "1.0.0"
