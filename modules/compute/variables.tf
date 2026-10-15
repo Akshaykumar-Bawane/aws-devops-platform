@@ -63,25 +63,25 @@ variable "eks_node_role_arn" {
 variable "eks_node_instance_types" {
   description = "EC2 instance types for EKS worker nodes"
   type        = list(string)
-  default     = ["t3.micro"]
+  default     = ["t3.small"]
 }
 
 variable "eks_node_desired" {
   description = "Desired number of worker nodes"
   type        = number
-  default     = 2
+  default     = 3
 }
 
 variable "eks_node_min" {
   description = "Minimum number of worker nodes"
   type        = number
-  default     = 1
+  default     = 2
 }
 
 variable "eks_node_max" {
   description = "Maximum number of worker nodes"
   type        = number
-  default     = 3
+  default     = 4
 }
 
 variable "enable_eks" {

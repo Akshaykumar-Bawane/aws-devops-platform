@@ -77,6 +77,9 @@ module "compute" {
   eks_cluster_role_arn     = module.security.eks_cluster_role_arn
   eks_node_role_arn        = module.security.eks_node_role_arn
   enable_eks               = var.enable_eks
+  eks_cluster_version      = var.eks_cluster_version
+  eks_node_desired         = var.eks_node_desired
+  eks_node_max     = var.eks_node_max
 }
 
 # ─────────────────────────────────────────
@@ -93,5 +96,5 @@ module "observability" {
   rds_instance_id        = module.database.rds_endpoint
   eks_cluster_name       = module.compute.eks_cluster_name
   cloudtrail_bucket_name = var.cloudtrail_bucket_name
-  enable_cloudtrail = var.enable_cloudtrail
+  enable_cloudtrail      = var.enable_cloudtrail
 }

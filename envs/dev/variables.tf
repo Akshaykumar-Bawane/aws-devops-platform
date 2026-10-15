@@ -99,3 +99,21 @@ variable "enable_cloudtrail" {
   type        = bool
   default     = false
 }
+
+variable "eks_cluster_version" {
+  description = "Kubernetes version for EKS cluster"
+  type        = string
+  default     = "1.36"
+}
+
+variable "eks_node_desired" {
+  description = "Desired number of EKS worker nodes"
+  type        = number
+  default     = 2
+}
+
+variable "eks_node_max" {
+  description = "Maximum number of EKS worker nodes"
+  type        = number
+  default     = 4
+}

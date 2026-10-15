@@ -11,3 +11,8 @@ terraform.tfstate.backup
 *.key
 envs/dev/terraform.tfvars
 envs/dev/.terraform/
+*.pem
+*.tfvars
+.terraform/
+*.tfstate*
+tfplan
