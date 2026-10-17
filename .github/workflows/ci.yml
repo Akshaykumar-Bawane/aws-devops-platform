@@ -1,0 +1,69 @@
+name: CI — Build and Push to ECR
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - 'Dockerfile'
+      - 'index.html'
+      - 'helm/app/**'
+
+env:
+  AWS_REGION: us-east-1
+  ECR_REPOSITORY: jungle-fury-dev-app
+  IMAGE_TAG: ${{ github.sha }}
+
+jobs:
+  build-and-push:
+    name: Build Docker image and push to ECR
+    runs-on: ubuntu-latest
+
+    steps:
+      # Step 1 — Checkout code
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      # Step 2 — Configure AWS credentials
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: ${{ env.AWS_REGION }}
+
+      # Step 3 — Login to ECR
+      - name: Login to Amazon ECR
+        id: login-ecr
+        uses: aws-actions/amazon-ecr-login@v2
+
+      # Step 4 — Build Docker image
+      - name: Build Docker image
+        run: |
+          docker build -t ${{ steps.login-ecr.outputs.registry }}/${{ env.ECR_REPOSITORY }}:${{ env.IMAGE_TAG }} .
+          docker tag ${{ steps.login-ecr.outputs.registry }}/${{ env.ECR_REPOSITORY }}:${{ env.IMAGE_TAG }} \
+                     ${{ steps.login-ecr.outputs.registry }}/${{ env.ECR_REPOSITORY }}:latest
+
+      # Step 5 — Push to ECR
+      - name: Push image to ECR
+        run: |
+          docker push ${{ steps.login-ecr.outputs.registry }}/${{ env.ECR_REPOSITORY }}:${{ env.IMAGE_TAG }}
+          docker push ${{ steps.login-ecr.outputs.registry }}/${{ env.ECR_REPOSITORY }}:latest
+
+      # Step 6 — Update image tag in Helm values
+      # This triggers ArgoCD to detect the change and redeploy
+      - name: Update Helm values with new image tag
+        run: |
+          sed -i "s|tag:.*|tag: \"${{ env.IMAGE_TAG }}\"|" helm/app/values.yaml
+          sed -i "s|repository:.*|repository: ${{ steps.login-ecr.outputs.registry }}/${{ env.ECR_REPOSITORY }}|" helm/app/values.yaml
+
+      # Step 7 — Commit updated values.yaml back to GitHub
+      - name: Commit and push updated values.yaml
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add helm/app/values.yaml
+          git diff --staged --quiet || git commit -m "ci: update image tag to ${{ env.IMAGE_TAG }}"
+          git push
