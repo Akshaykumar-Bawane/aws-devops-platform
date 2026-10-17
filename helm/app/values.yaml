@@ -1,8 +1,8 @@
 replicaCount: 2
 
 image:
-  repository: nginx
-  tag: "latest"
+  repository: 762682890391.dkr.ecr.us-east-1.amazonaws.com/jungle-fury-dev-app
+  tag: "732b21b356df5a59628f629d478ecbe83f76628f"
   pullPolicy: Always
 
 service:
