@@ -1,9 +1,35 @@
 <!DOCTYPE html>
-<html>
-<head><title>Jungle Fury App</title></head>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Jungle Fury App</title>
+  <style>
+    body { font-family: Arial, sans-serif; max-width: 800px; margin: 50px auto; padding: 20px; background: #0d1117; color: #c9d1d9; }
+    h1 { color: #58a6ff; }
+    .badge { display: inline-block; background: #238636; padding: 4px 12px; border-radius: 20px; font-size: 14px; margin: 5px; }
+    .stack { margin-top: 30px; }
+  </style>
+</head>
 <body>
-  <h1>Jungle Fury — DevOps Platform</h1>
-  <p>Deployed via GitHub Actions → ECR → ArgoCD → EKS</p>
-  <p>Build: VERSION_PLACEHOLDER</p>
+  <h1>Jungle Fury DevOps Platform</h1>
+  <p>Production-grade AWS infrastructure deployed end-to-end via DevOps toolchain.</p>
+
+  <div class="stack">
+    <span class="badge">Terraform</span>
+    <span class="badge">EKS</span>
+    <span class="badge">ArgoCD</span>
+    <span class="badge">GitHub Actions</span>
+    <span class="badge">Helm</span>
+    <span class="badge">NGINX Ingress</span>
+    <span class="badge">ECR</span>
+    <span class="badge">RDS</span>
+    <span class="badge">CloudWatch</span>
+  </div>
+
+  <div style="margin-top: 30px; font-size: 13px; color: #8b949e;">
+    <p>Pipeline: GitHub push → Docker build → ECR push → ArgoCD sync → EKS deploy</p>
+    <p>GitHub: <a href="https://github.com/Akshaykumar-Bawane/aws-devops-platform" style="color: #58a6ff;">aws-devops-platform</a></p>
+  </div>
 </body>
 </html>
