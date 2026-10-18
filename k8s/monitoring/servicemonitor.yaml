@@ -1,0 +1,21 @@
+# ServiceMonitor tells Prometheus to scrape our app's metrics
+# Our nginx app doesn't expose custom metrics yet
+# but this shows the pattern for when it does
+apiVersion: monitoring.coreos.com/v1
+kind: ServiceMonitor
+metadata:
+  name: jungle-fury-app-monitor
+  namespace: monitoring
+  labels:
+    release: monitoring
+spec:
+  namespaceSelector:
+    matchNames:
+      - app
+  selector:
+    matchLabels:
+      app: jungle-fury-app
+  endpoints:
+    - port: http
+      path: /metrics
+      interval: 30s
