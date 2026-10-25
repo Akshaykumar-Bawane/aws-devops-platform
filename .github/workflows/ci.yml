@@ -1,6 +1,7 @@
 name: CI — Build and Push to ECR
 
 on:
+  workflow_dispatch:        # ← adds a "Run workflow" button in the Actions tab
   push:
     branches:
       - main
