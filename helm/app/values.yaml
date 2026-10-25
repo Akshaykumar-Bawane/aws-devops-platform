@@ -2,7 +2,7 @@ replicaCount: 2
 
 image:
   repository: 762682890391.dkr.ecr.us-east-1.amazonaws.com/jungle-fury-dev-app
-  tag: "376e031b3a80bbf1a072cfa788ecbe82d8dff110"
+  tag: "80587f1a3cb1811cae188376f350e326a12d8b4e"
   pullPolicy: Always
 
 service:
