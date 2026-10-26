@@ -27,3 +27,7 @@ output "eks_node_group_status" {
   description = "EKS node group current status"
   value       = var.enable_eks ? aws_eks_node_group.main[0].status : null
 }
+
+output "bastion_security_group_id" {
+  value = aws_security_group.bastion.id
+}

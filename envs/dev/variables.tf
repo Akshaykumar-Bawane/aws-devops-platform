@@ -117,3 +117,9 @@ variable "eks_node_max" {
   type        = number
   default     = 4
 }
+
+variable "enable_ansible_fleet" {
+  description = "Create the 2 Ansible practice nodes"
+  type        = bool
+  default     = false
+}

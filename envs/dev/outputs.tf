@@ -32,3 +32,7 @@ output "sns_topic_arn" {
   description = "SNS topic for alarms"
   value       = module.observability.sns_topic_arn
 }
+
+output "fleet_private_ips" {
+  value = module.fleet.private_ips
+}

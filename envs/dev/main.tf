@@ -98,3 +98,14 @@ module "observability" {
   cloudtrail_bucket_name = var.cloudtrail_bucket_name
   enable_cloudtrail      = var.enable_cloudtrail
 }
+module "fleet" {
+  source = "../../modules/fleet"
+
+  project_name       = var.project_name
+  env                = var.env
+  vpc_id             = module.vpc.vpc_id
+  private_subnet_ids = module.vpc.private_subnet_ids
+  bastion_sg_id      = module.compute.bastion_security_group_id
+  key_pair_name      = var.key_pair_name
+  enable             = var.enable_ansible_fleet
+}
