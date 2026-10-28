@@ -1,0 +1,34 @@
+- name: Harden sshd (drop-in file)
+  ansible.builtin.copy:
+    dest: /etc/ssh/sshd_config.d/99-hardening.conf
+    content: |
+      PermitRootLogin {{ sshd_permit_root_login }}
+      PasswordAuthentication {{ sshd_password_auth }}
+      MaxAuthTries {{ sshd_max_auth_tries }}
+    owner: root
+    group: root
+    mode: "0600"
+  become: true
+  notify: Restart sshd
+
+- name: Apply kernel hardening sysctls
+  ansible.posix.sysctl:
+    name: "{{ item.key }}"
+    value: "{{ item.value }}"
+    sysctl_file: /etc/sysctl.d/99-hardening.conf
+    state: present
+    reload: true
+  loop: "{{ sysctl_settings | dict2items }}"
+  become: true
+
+- name: Install auditd
+  ansible.builtin.dnf:
+    name: audit
+    state: present
+  become: true
+
+- name: Enable auditd
+  ansible.builtin.service:
+    name: auditd
+    enabled: true
+  become: true

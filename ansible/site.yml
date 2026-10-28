@@ -1,0 +1,6 @@
+- name: Configure and harden the fleet
+  hosts: fleet
+  roles:
+    - common
+    - security_baseline
+    - app_service

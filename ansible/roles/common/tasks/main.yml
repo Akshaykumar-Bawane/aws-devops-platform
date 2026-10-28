@@ -1,0 +1,12 @@
+- name: Install standard packages
+  ansible.builtin.dnf:
+    name: "{{ common_packages }}"
+    state: present
+  become: true
+
+- name: Ensure time sync is running and enabled
+  ansible.builtin.service:
+    name: chronyd
+    state: started
+    enabled: true
+  become: true
